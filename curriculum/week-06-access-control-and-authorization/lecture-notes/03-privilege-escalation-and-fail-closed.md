@@ -103,12 +103,12 @@ Step back from the individual route fixes and name the principle they all share:
 
 ```mermaid
 flowchart TD
-  subgraph allow["Allow-by-default (fragile)"]
+  subgraph allow["Allow-by-default - fragile"]
     A1["New route added"] --> A2{"Did someone remember\nto add an authz check?"}
     A2 -->|"yes"| A3["Protected"]
     A2 -->|"forgot"| A4["Silently open to ANYONE —\nfails unsafe, discovered\nonly by an attacker\nor an audit"]
   end
-  subgraph deny["Deny-by-default (robust)"]
+  subgraph deny["Deny-by-default - robust"]
     B1["New route added"] --> B2{"Route explicitly declares\nrequired permission?"}
     B2 -->|"yes, declared"| B3["Protected"]
     B2 -->|"not declared"| B4["403 for everyone —\nfails safe, breaks\nin TESTING, not\nin production for an attacker"]

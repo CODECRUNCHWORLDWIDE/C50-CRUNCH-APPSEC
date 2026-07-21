@@ -60,6 +60,22 @@ curl -s -H "Authorization: Bearer tok_alice_LABONLY_0001" \
 
 The second request returns Bob's "Rotate deploy key" task body to Alice's token. No cookie, no session, no browser involved anywhere — just a header and an integer she incremented.
 
+```mermaid
+sequenceDiagram
+  participant Client as Alice's token
+  participant API as GET tasks endpoint
+  participant DB as Tasks table
+
+  Client->>API: Request task 3
+  API->>API: Check token is valid
+  Note over API: No ownership check performed
+  API->>DB: SELECT task WHERE id equals 3
+  DB-->>API: Bob's task row
+  API-->>Client: Returns Bob's task data
+```
+
+*BOLA: the endpoint verifies the token is real but never asks whether task 3 belongs to Alice.*
+
 **Remediate it** — add the ownership predicate directly into the query, exactly like Week 3 and Week 6's fix:
 
 ```python

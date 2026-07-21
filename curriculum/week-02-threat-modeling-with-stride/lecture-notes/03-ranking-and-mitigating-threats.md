@@ -42,6 +42,18 @@ A risk score alone doesn't tell a team what to *do*. Every threat, once scored, 
 | **Transfer** | Shift the risk to someone better positioned to bear it | Using a managed payment processor instead of storing card numbers yourself; buying cyber-insurance for residual risk; this is common in Week 7's crypto/secrets discussion and Week 9's supply-chain discussion |
 | **Accept** | Knowingly do nothing further, because the cost of any control exceeds the risk | Only valid when it's a *documented, deliberate* decision by someone with authority to make it — silent, undocumented acceptance is not a disposition, it's just an unaddressed risk wearing a label |
 
+```mermaid
+flowchart TD
+  A["Threat identified and scored"] --> B{"Does the risk outweigh the value of the feature entirely"}
+  B -->|"yes"| C["Eliminate - remove the feature or flow"]
+  B -->|"no"| D{"Can the risk shift to someone better positioned to bear it"}
+  D -->|"yes"| E["Transfer - example managed payment processor"]
+  D -->|"no"| F{"Does a control cost less than the risk"}
+  F -->|"yes"| G["Mitigate - add a check limit or validation"]
+  F -->|"no"| H["Accept - documented deliberate decision"]
+```
+*Which of the four dispositions applies, worked through in order.*
+
 Applied to the two scored threats above:
 
 - The login error-message threat (risk 8): **mitigate** — return one generic message ("invalid email or password") for both failure cases. Cheap, removes the whole threat class, doesn't change any legitimate behavior.
@@ -70,6 +82,28 @@ A disposition without a specific control is still not actionable. "Mitigate" is 
 ## 4. Storing the ranked model as data (never a spreadsheet)
 
 Everything above is naturally two tables — elements and the threats attached to them — and once it's two tables, it belongs in a real database, not a spreadsheet someone will eventually mis-sort by the wrong column. This course's rule holds here exactly as it did in Week 1: **queryable findings live in SQLite or Python, never Excel.**
+
+```mermaid
+erDiagram
+  ELEMENTS ||--o{ THREATS : has
+  ELEMENTS {
+    int element_id
+    string name
+    string element_type
+    string trust_zone
+  }
+  THREATS {
+    int threat_id
+    int element_id
+    string stride_category
+    int likelihood
+    int impact
+    int risk_score
+    string disposition
+    string status
+  }
+```
+*One element can have many threats; each threat traces back to exactly one element.*
 
 ```sql
 -- schema.sql

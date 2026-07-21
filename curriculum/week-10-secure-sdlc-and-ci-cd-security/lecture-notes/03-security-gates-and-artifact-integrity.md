@@ -26,6 +26,8 @@ flowchart LR
   style H fill:#166534,color:#fff
 ```
 
+*Each gate's exit code decides the next step: any non-zero result fails the build closed, and deploy only runs after signature verification passes.*
+
 Every arrow into a red box is a place this week's pipeline can stop cold before a bad artifact ever reaches "deploy." That's the whole point of a gate: it fails **closed** — no finding means proceed, but any error running the check itself (tool crashed, couldn't reach its rule database) should also be treated as a failure, not silently skipped. A gate that fails open on error is not a gate.
 
 ## 2. Wiring Semgrep as a SAST gate

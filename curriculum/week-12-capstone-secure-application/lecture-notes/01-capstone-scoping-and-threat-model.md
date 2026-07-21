@@ -147,6 +147,15 @@ The `accepted` status on the DoS row is deliberate: not every risk gets fixed th
 
 The register is what tells you what to build in Lecture 2, and in what order — not the vulnerability numbering from the README, which is just a reference table, but the **priority** column you just computed. `P0` and `P1` rows (the role checks, the IDOR, the injection, the hardcoded secrets) come first; `P2`/`P3` rows (session-cookie hardening, the CI pipeline gates) can follow once the highest-impact holes are closed. This ordering matters for the same reason it mattered in Week 1's risk register: a capstone that runs out of time on Friday should have fixed the things that matter most, not whichever vulnerability happened to be first in the README's numbered list.
 
+```mermaid
+flowchart LR
+  dfd["Data-flow diagram"] --> stride["STRIDE table"]
+  stride --> register["Risk register"]
+  register --> priority["Priority P0 to P3"]
+  priority --> build["Lecture 2 build order"]
+```
+*How the threat-modeling artifacts feed, in order, into what gets built first.*
+
 ## 7. Check yourself
 
 - What's the difference between a data-flow diagram's "process" and "data store," and why does STRIDE apply differently to each?

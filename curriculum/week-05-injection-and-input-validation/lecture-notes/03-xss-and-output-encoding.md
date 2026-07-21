@@ -14,6 +14,20 @@ Cross-site scripting is injection — the exact pattern from Lecture 1, aimed at
 
 Reflected and stored differ only in **how long the payload persists and who it reaches** — reflected needs the victim to click a crafted link right now; stored waits in the database and can hit every user who ever views the poisoned page, which is why stored XSS is generally considered more severe. DOM-based is different in kind: it can happen with **zero server involvement**, so server-side input validation and output encoding do nothing to stop it — the fix has to live in the client-side JavaScript itself (Section 5).
 
+```mermaid
+flowchart LR
+  subgraph reflected["Reflected XSS"]
+    r1["Payload rides in the request"] --> r2["Server echoes it back unencoded"] --> r3["Browser executes it in that same response"]
+  end
+  subgraph stored["Stored XSS"]
+    s1["Attacker submits payload once"] --> s2["Server saves it to the database"] --> s3["Every later visitor's browser executes it"]
+  end
+  subgraph dombased["DOM-based XSS"]
+    d1["Payload sits in the URL fragment"] --> d2["Client JavaScript reads it directly"] --> d3["Written into innerHTML with no server involved"]
+  end
+```
+*Same underlying bug, three different paths the untrusted data takes to reach the browser's parser.*
+
 ## 2. Reflected XSS, traced through Crunch Notes' search
 
 ```python
@@ -93,6 +107,19 @@ Content-Security-Policy: default-src 'self'; script-src 'self'; object-src 'none
 With a policy like this, even if an attacker *does* get a `<script>` tag injected onto the page (encoding missed somewhere, a sanitizer bug, a third-party widget with its own flaw), the browser refuses to execute inline scripts or scripts from any origin other than the page's own — the attack still fails, at a completely different layer than output encoding. That's the point of calling CSP **defense-in-depth**, not the primary fix: it's a safety net that catches encoding mistakes, not a substitute for making the encoding correct in the first place. A strict CSP typically also blocks **inline** `<script>` and `onclick="..."`-style inline event handlers entirely, forcing scripts into separate files or `nonce`-tagged blocks — which independently makes a whole class of reflected/stored XSS payloads (the ones that rely on inline `<script>` or `onerror=`) stop working even before you've fixed the encoding bug that let them in.
 
 One more layer worth naming here, even though it doesn't stop XSS from executing: cookie flags. `HttpOnly` on a session cookie stops JavaScript (including injected JavaScript) from reading it via `document.cookie` at all, and `SameSite=Lax`/`Strict` limits when that cookie is sent on cross-site requests. Neither flag fixes an XSS bug — but both reduce what a successful XSS payload can actually accomplish, which is exactly the damage-limitation mindset this course has drilled since Week 1's attacker/defender framing.
+
+```mermaid
+flowchart TD
+  A["Attacker payload reaches the page"] --> B{"Output encoding correct"}
+  B -->|"Yes"| Z1["Rendered as inert text -- attack stopped"]
+  B -->|"No -- encoding missed"| C{"CSP blocks inline or foreign scripts"}
+  C -->|"Yes"| Z2["Script blocked by browser policy -- attack stopped"]
+  C -->|"No -- CSP absent or misconfigured"| D["Script executes in the victim's browser"]
+  D --> E{"HttpOnly and SameSite set on the cookie"}
+  E -->|"Yes"| Z3["Cookie theft and cross-site replay blocked"]
+  E -->|"No"| F["Full damage -- cookie stolen or action forged"]
+```
+*Each layer only has to catch what the layer before it missed -- that is what "defense in depth" means.*
 
 ## 7. Check yourself
 

@@ -18,6 +18,8 @@ flowchart LR
   O -.->|"incidents, new threats,\nchanging requirements"| R
 ```
 
+*The six SDLC phases in order, with Operate looping back to Requirements as incidents and new threats reshape the next cycle.*
+
 Notice the loop back from **Operate** to **Requirements**. This is not a waterfall you walk once — it's a cycle. An incident in production is itself new information that should change next quarter's requirements and threat model, exactly the way Week 2 described a threat model as a living document, not a one-time diagram.
 
 ## 2. Requirements — decide what "secure" means before anyone writes code

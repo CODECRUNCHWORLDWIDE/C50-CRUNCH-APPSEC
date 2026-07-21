@@ -80,6 +80,7 @@ flowchart TD
   B -.->|"vulnerable dependency,\ntampered package, exposed secret in CI"| BBUG["Supply-chain flaw:\ne.g. known-CVE library, leaked API key"]
   O -.->|"missing patch, open port,\nmisconfigured cloud storage"| OBUG["Operational flaw:\ne.g. public S3 bucket, unpatched server"]
 ```
+*A vulnerability can enter at any of four SDLC stages, and each needs its own defense.*
 
 | Stage | Example flaw | This course's defense |
 |---|---|---|

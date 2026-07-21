@@ -98,6 +98,15 @@ def search_notes():
 
 The database cannot tell the difference between "text the developer wrote" and "text a user supplied" once they've been concatenated into the same string — it just sees one SQL statement and executes it. A crafted `q` value can close the intended `'...'` string early and add its own SQL:
 
+```mermaid
+flowchart LR
+  A["User-supplied search text"] --> B["String formatting builds the SQL text"]
+  B --> C["Database engine parses the string"]
+  C --> D["Injected clause changes the WHERE logic"]
+  D --> E["Every row returned, not just this user's"]
+```
+*Once user input is concatenated into the query string, the database cannot tell code from data.*
+
 **Demonstrate it:**
 
 ```bash
@@ -151,6 +160,15 @@ def export_notes():
 ```
 
 There's no SQL injection here — the query is parameterized correctly. There's no access-control bug — it correctly scopes to `session["user_id"]`. And yet it's insecure: **nothing anywhere in the schema, the route, or the request handling limits how many notes a user can have, how large a single note's `body` can be, or how much data one request to `/export` can generate.** A user (or a compromised account) that creates ten million one-megabyte notes turns a single `GET /notes/export` into a multi-gigabyte in-memory string build and response — a self-inflicted denial-of-service that no amount of "careful coding" of this specific route would have prevented, because the missing control lives upstream of it, at the point notes are created and stored.
+
+```mermaid
+flowchart TD
+  A["Notes created with no size limit"] --> B["Table grows without bound"]
+  B --> C["Export endpoint reads every row"]
+  C --> D["Multi-gigabyte string built in memory"]
+  D --> E["Server runs out of memory - self-inflicted DoS"]
+```
+*A missing constraint at note-creation time becomes a denial-of-service two steps downstream, at export time.*
 
 **Demonstrate the missing constraint:**
 

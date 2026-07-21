@@ -96,6 +96,7 @@ sequenceDiagram
   Attacker->>Server: GET /dashboard (session_id=ABC123)
   Server-->>Attacker: Victim's data — attacker never needed the password
 ```
+*The attacker plants the session ID before login; rotating the ID on login is what breaks this chain.*
 
 The fix is one rule, applied without exception: **rotate the session ID on every privilege change** — specifically, on successful login and again on successful MFA verification. The pre-login session ID is discarded entirely rather than "upgraded" in place:
 

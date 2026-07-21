@@ -174,6 +174,18 @@ A fix that blocks *everyone*, including legitimate admins, isn't a fix — it's 
 
 Notice that both the IDOR and the missing-function-check share one root cause: **the code answered "is this person logged in" and treated that as a complete answer to "is this person allowed to do this."** Every fix in this section is some version of "add the specific check that was missing" — never a broad, vague `# TODO: add security` — because access control bugs are found and fixed one specific missing predicate at a time. Two more principles worth internalizing now, before Week 6 goes much deeper on them:
 
+```mermaid
+flowchart TD
+  A["Incoming request"] --> B{"Logged in?"}
+  B -- No --> C["401 login required"]
+  B -- Yes --> D{"Owns this object?"}
+  D -- No --> E["404 not found"]
+  D -- Yes --> F{"Has required role?"}
+  F -- No --> G["403 forbidden"]
+  F -- Yes --> H["Serve the request"]
+```
+*Every access-control check has to clear all three gates — authentication, object ownership, and role — or the request stops.*
+
 - **Deny by default.** Access should be denied unless a rule explicitly grants it, never granted unless a rule explicitly denies it. `require_role` above returns `403` the instant the check fails — it never falls through to "allow."
 - **Check at the point of use, not the point of entry.** A check performed once at login (or in client-side JavaScript) protects nothing on the server. Every route that touches a specific object re-checks ownership; every route that requires a role re-checks the role — on the server, on every request.
 

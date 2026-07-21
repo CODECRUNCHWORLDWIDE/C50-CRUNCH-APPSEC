@@ -150,6 +150,17 @@ def login():
     return jsonify(message=f"welcome {row['username']}")
 ```
 
+```mermaid
+stateDiagram-v2
+  [*] --> Normal
+  Normal --> Normal: correct password
+  Normal --> Counting: failed attempt
+  Counting --> Counting: another failure under threshold
+  Counting --> LockedOut: five failures in sixty seconds
+  LockedOut --> Normal: lockout window expires
+```
+*The fixed login route tracks failures per username and locks the account out for a rolling time window instead of allowing unlimited guesses.*
+
 **Failure 2 — session cookie missing hardening flags.** Inspect the cookie Flask issued:
 
 ```bash
@@ -327,6 +338,15 @@ def avatar():
     ct = resp.headers.get("Content-Type", "application/octet-stream")
     return resp.content, resp.status_code, {"Content-Type": ct}
 ```
+
+```mermaid
+flowchart TD
+  A["Client supplies a url parameter"] --> B{"Is the host on the allowlist?"}
+  B -- No --> C["400 host not allowed"]
+  B -- Yes --> D["Server fetches the url"]
+  D --> E["Response proxied back to the client"]
+```
+*An allowlist stops the server from being tricked into acting as a proxy into its own internal network.*
 
 **Re-test:** re-run the exact Juice Shop request from above — it must now return `{"error":"host not allowed"}` with a 400, not the proxied response. A blocklist approach ("reject `127.0.0.1`, reject `localhost`") is not an acceptable substitute — it can always be bypassed (`127.1`, a DNS name that resolves to `127.0.0.1`, an IPv6 loopback form) and it grows a new exception every time someone finds the next bypass. An allowlist has no such gap: anything not explicitly permitted is refused, matching the deny-by-default principle from Lecture 1.
 

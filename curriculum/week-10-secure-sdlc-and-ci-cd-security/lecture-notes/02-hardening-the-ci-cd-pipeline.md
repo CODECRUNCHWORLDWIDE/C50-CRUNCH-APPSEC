@@ -22,6 +22,8 @@ flowchart TD
   style pipeline fill:#B91C1C,color:#fff
 ```
 
+*Compromising the pipeline reaches every system it deploys to; compromising the app directly only reaches that one system.*
+
 ## 2. Risk 1 — Poisoned dependencies (the pipeline's own supply chain)
 
 Week 9 taught dependency confusion and typosquatting against **your application's** dependencies. The exact same risk applies to **the pipeline's** dependencies — and a pipeline has more of them than you'd think:

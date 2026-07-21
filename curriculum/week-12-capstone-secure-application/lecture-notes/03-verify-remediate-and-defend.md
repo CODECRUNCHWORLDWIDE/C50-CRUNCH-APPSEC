@@ -134,6 +134,17 @@ ORDER BY
 
 The manager-approving-their-own-expense finding from Section 6 and the debug-mode Bandit finding from Section 3 are both real — but they don't carry equal weight, and the query above puts them in the order that reflects that, automatically, every time you re-run it as new findings land.
 
+```mermaid
+flowchart LR
+  sast["SAST Bandit"] --> db[("capstone_findings")]
+  dast["DAST probe script"] --> db
+  sca["SCA pip-audit"] --> db
+  manual["Manual review"] --> db
+  register["Lecture 1 risk register"] --> db
+  db --> triage["Triage query by severity"]
+```
+*Every finding source lands in one table so triage is a query, not a meeting.*
+
 ## 8. Preparing the defense
 
 Challenge 2's design-defense review will ask you, cold, to justify decisions you made days earlier. Prepare for it now, while the reasoning is fresh, by writing (not just thinking) answers to four questions for **every** `wont_fix` or `accepted` status in your findings database and risk register:

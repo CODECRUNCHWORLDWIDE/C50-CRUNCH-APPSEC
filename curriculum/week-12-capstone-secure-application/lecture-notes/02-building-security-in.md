@@ -98,6 +98,16 @@ def approve_expense(expense_id):
 
 Apply `@require_role("admin")` to `/admin/users` the same way. Re-test both by logging in as `cl-erin` (employee) and confirming each now returns `403`, then logging in as `cl-mona` (manager) and confirming `/admin/approve/<id>` still succeeds while `/admin/users` (admin-only) still correctly fails for her too — proving the fix draws the line at the right place, not just "any check at all."
 
+```mermaid
+flowchart TD
+  A["Request hits route"] --> B{"user_id in session"}
+  B -->|"No"| C["401 login required"]
+  B -->|"Yes"| D{"role in allowed roles"}
+  D -->|"No"| E["403 forbidden"]
+  D -->|"Yes"| F["Run the view function"]
+```
+*The require_role decorator gates every privileged route before its own logic ever runs.*
+
 ## 4. Secrets and applied crypto (VULN #6, #7, #8 — Week 7)
 
 **Hardcoded secrets → environment injection.** Remove both values from `config.py` entirely and read them from the environment, failing loudly if either is missing rather than silently falling back to a default (a silent fallback is just a hardcoded secret with extra steps):
@@ -202,6 +212,19 @@ jobs:
 ```
 
 The `deploy` job's `needs: security-gates` means a failing test, a Bandit medium-or-higher finding, or a `pip-audit` advisory now **blocks deployment automatically** — the pipeline enforces the gate; no human has to remember to check. The `environment: production` block additionally lets a real CI platform require a human approval before the deploy step runs at all, closing the "no approval required" half of VULN #11 alongside the "failures don't block" half.
+
+```mermaid
+flowchart LR
+  co["Checkout code"] --> inst["Install deps"]
+  inst --> test["Unit tests blocking"]
+  test --> sast["SAST Bandit blocking"]
+  sast --> sca["SCA pip-audit blocking"]
+  sca --> gate{"All gates passed"}
+  gate -->|"No"| fail["Job fails no deploy"]
+  gate -->|"Yes"| review["Production environment reviewer approval"]
+  review --> deploy["Deploy"]
+```
+*The CI pipeline's gate order: any failed step blocks the deploy job entirely.*
 
 ## 7. Confirm the whole build, together
 

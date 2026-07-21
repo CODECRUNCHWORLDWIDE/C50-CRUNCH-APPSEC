@@ -72,6 +72,7 @@ flowchart LR
   S --> B3["10-15 High"]
   S --> B4["16-25 Critical"]
 ```
+*Likelihood times impact produces a 1-25 score that bands into a clear response.*
 
 ## 3. The CIA triad — what, precisely, are you protecting?
 
@@ -122,6 +123,7 @@ flowchart LR
   APP -->|"trust boundary 3:\nparameterize, never concatenate"| DB["Database\n(trusts only well-formed queries)"]
   APP -->|"trust boundary 4:\nvalidate responses, least privilege"| EXT["Third-party API\n(external, not fully trusted)"]
 ```
+*Each arrow is a trust boundary where a request must be validated, authenticated, or authorized.*
 
 The IDOR from Lecture 1 was, precisely, a **missing check at trust boundary 2**: the request crossed from "anonymous internet" to "authenticated user" correctly (boundary 1 held — you needed *some* valid session), but nothing checked whether *this* authenticated user was authorized for *this specific* job ID before the application logic queried the database. The most dangerous vulnerabilities are almost always a missing or misplaced check at exactly one of these boundaries — which is why Week 2's STRIDE threat modeling walks a data-flow diagram boundary by boundary, and why this lecture teaches you to see them before you have a formal process for it.
 

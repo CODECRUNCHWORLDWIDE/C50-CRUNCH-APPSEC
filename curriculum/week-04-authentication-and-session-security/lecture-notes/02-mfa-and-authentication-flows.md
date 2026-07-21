@@ -42,6 +42,7 @@ sequenceDiagram
   App-->>Server: user types the 6-digit code
   Server->>Server: compare to locally-computed code (± 1 step window)
 ```
+*Both sides derive the same six digits independently from time and a shared secret — no network round trip required.*
 
 ### 2.2 Enrollment and verification with `pyotp`
 
@@ -98,6 +99,7 @@ sequenceDiagram
   Authenticator-->>Server: signature
   Server->>Server: verify signature with stored public key
 ```
+*Registration binds a key pair to the exact origin; login only produces a signature if that origin still matches.*
 
 The critical property: the authenticator **refuses to sign a challenge for the wrong origin.** A phishing page at `crunch-appsec-login.evil.com` can show a pixel-perfect copy of your login page and relay the challenge to the real server, but the authenticator checks the origin *itself*, in hardware/OS code the phishing page can't intercept or spoof — and simply won't produce a signature. This is what "phishing-resistant" means precisely: not "harder to phish," but structurally incapable of being phished via a fake-domain relay, because there's no shared secret and no human-checked code to steal.
 
@@ -155,6 +157,7 @@ stateDiagram-v2
   Locked --> AwaitingPassword: lockout window expires
   Authenticated --> [*]
 ```
+*A session is never Authenticated until both the password step and the MFA step succeed.*
 
 Notice the session created after the password step alone must be marked **not yet fully authenticated** — it should be able to reach only the MFA-verification endpoint, nothing else. A common real-world bug is issuing a fully-privileged session cookie right after the password check and treating the TOTP prompt as pure UI decoration the server never actually enforces server-side. Exercise 2 has you build the state machine so that a captured "post-password, pre-MFA" session genuinely cannot reach `/dashboard`.
 

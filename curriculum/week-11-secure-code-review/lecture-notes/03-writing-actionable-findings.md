@@ -141,6 +141,19 @@ ORDER BY days_to_fix DESC;
 
 A finding's lifecycle in this course is always **`open` → `fixed` (a diff exists) → `retested_ok` (you re-ran the exact reproduction from the row and it now behaves correctly)** — mirroring the demonstrate → remediate → re-test loop Week 6 introduced for authorization findings. `wontfix` and `false_positive` exist as honest outcomes too: not every finding gets fixed (a risk may be formally accepted) and not every suspicion survives verification (Lecture 2's discipline of confirming before writing exists precisely to keep this status rare).
 
+```mermaid
+stateDiagram-v2
+  [*] --> open
+  open --> fixed
+  fixed --> retested_ok
+  open --> wontfix
+  open --> false_positive
+  retested_ok --> [*]
+  wontfix --> [*]
+  false_positive --> [*]
+```
+*The five states a review_findings row moves through, from discovery to close.*
+
 ## 6. Check yourself
 
 - Why does the injection finding in Section 2.1 count as *two* findings instead of one, even though both live in the same route?

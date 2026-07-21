@@ -36,6 +36,7 @@ flowchart TB
   docker --> dvwa
   docker --> goat
 ```
+*Three vulnerable targets sit on an internal Docker network published only to localhost.*
 
 The key property: containers on the `appsec-lab` network reach **each other and nothing else** by default. You reach them from your host via ports Docker publishes to `127.0.0.1` — never to `0.0.0.0` (which would make them reachable from your LAN) and never with a cloud/public deployment. Section 5 shows you how to prove this rather than trust it.
 
