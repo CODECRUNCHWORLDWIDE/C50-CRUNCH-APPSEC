@@ -20,6 +20,14 @@ By the end of this week, you will be able to:
 - **Map an application's attack surface** — its entry points, trust boundaries, and data flows — and record the findings in a queryable store (SQLite + Python), never a spreadsheet.
 - **Build a risk register** that ranks findings by likelihood × impact and drives what gets fixed first.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CIS 4365` — Reason about assets, threats, vulnerabilities and risk, and explain the confidentiality, integrity and availability properties a software system has to hold. |
+| Industry | Stand up an isolated test environment, prove it cannot reach anything you do not own, and get authorization and scope in writing before you touch a target. |
+| Beyond the bar | It makes the learner prove the lab's isolation instead of assuming it, and write and sign their own rules-of-engagement document before any offensive work — `challenges/challenge-01-write-a-rules-of-engagement.md` |
+
 ## Prerequisites
 
 - Comfortable in a terminal (navigate directories, run a command, read output/errors).

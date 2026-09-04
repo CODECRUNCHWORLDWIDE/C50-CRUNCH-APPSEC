@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Remediate** each flaw at the source — in the actual Python, not by hiding the symptom — and **re-test** to prove the fix holds.
 - **Record** every demonstrate/remediate/re-test cycle as structured rows in a SQL findings store, never a spreadsheet, so "what's still open" is one query away.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CIS 4365` — Identify, classify and remediate the principal vulnerability classes found in production software. |
+| Industry | Take a reported flaw from demonstration to source-level fix to a re-test that proves it closed, and leave the status somewhere the team can query it. |
+| Beyond the bar | It sends the learner through a second, unfamiliar application with no recipe, hunting a representative flaw from every category and logging each with real request/response evidence — `challenges/challenge-01-full-top-10-sweep.md` |
+
 ## Prerequisites
 
 - **Week 1 completed** — your isolated `appsec-lab` Docker network is up (Juice Shop at `localhost:3000` is used again this week; DVWA and WebGoat are optional extras for the challenges).

@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Demonstrate and then remediate** reflected, stored, and DOM-based XSS in a lab target — the same attacker/defender pairing this course has drilled since Week 1.
 - **Verify** that your defenses hold by re-running a stored library of injection payloads against the fixed code and recording pass/fail as data, not a feeling.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CIS 4365` — Explain how injection arises when untrusted data crosses into an interpreter, and defeat it with input validation, output encoding and safe APIs. |
+| Industry | Convert an injectable codebase to parameterized queries and allowlist validation in one pass, and prove the conversion by replaying a stored payload library rather than spot-checking it. |
+| Beyond the bar | It has the learner exploit blind injection with no error message and no data ever returned to them, then build a detector for it out of query logs — `challenges/challenge-02-blind-injection-defense.md` |
+
 ## Prerequisites
 
 - **Weeks 1–4 completed.** Specifically: your isolated lab is up (Week 1), you can reason about trust boundaries and STRIDE's Tampering category (Week 2), you know the OWASP Top 10 names for these bugs — A03:2021 Injection and, historically, XSS (Week 3) — and you've hardened a login flow, so you understand *why* the login endpoint below still being SQL-injectable this week is a second, independent bug on top of authentication (Week 4).

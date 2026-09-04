@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Manage sessions** to resist fixation, hijacking, and CSRF — session ID entropy, cookie flags (`HttpOnly`, `Secure`, `SameSite`), ID rotation on privilege change, idle and absolute timeout, and a logout that actually invalidates server-side state.
 - **Detect authentication attacks from logs** — write SQL against a `login_events` table to tell a brute-force pattern from a credential-stuffing pattern from normal failed logins.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CSC 515` — Implement authentication and session management that resists the known attacks on credentials and sessions. |
+| Industry | Ship a login flow that survives a credential-stuffing run: slow password hashing, per-account lockout, per-IP rate limiting, MFA, and sessions that rotate on privilege change and actually expire. |
+| Beyond the bar | The learner writes the stuffing script themselves, watches it succeed against their own undefended build, then proves the defense stops the same script — `challenges/challenge-01-defend-credential-stuffing.md` |
+
 ## Prerequisites
 
 - **Week 1 completed** — your isolated `appsec-lab` Docker network is up, with DVWA reachable at `127.0.0.1:3001` and its database initialized (`/setup.php` → "Create / Reset Database").

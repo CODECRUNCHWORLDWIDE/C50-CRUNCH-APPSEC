@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Defend the software supply chain** with pinned, hashed lockfiles; a generated and scanned SBOM (software bill of materials); and an understanding of dependency confusion, typosquatting, and compromised-package attacks concrete enough to explain to a teammate in one sentence each.
 - **Detect and record** vulnerable and malicious dependencies as structured findings in a SQL database, so "what's still unpatched in our supply chain" is one query away — never a spreadsheet, never a memory.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4235` — Secure a service interface and the software supply chain it depends on. |
+| Industry | Close object- and function-level authorization gaps on an API, allowlist both what a client may set and what a response may return, and keep a generated bill of materials scanned and current. |
+| Beyond the bar | It builds a working dependency-confusion attack offline on the learner's own machine, then proves that hash-pinned lockfiles stop it — `challenges/challenge-02-simulate-a-dependency-attack.md` |
+
 ## Prerequisites
 
 - **Week 1 completed** — your isolated `appsec-lab` Docker network is up.

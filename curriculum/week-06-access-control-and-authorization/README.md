@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Find and fix IDOR and horizontal/vertical privilege escalation** in a real Flask + SQLite app, at the source, by adding the ownership and role checks the original code silently skipped.
 - **Test authorization systematically** with a data-driven "role × resource × action" matrix instead of a handful of manual clicks — the only method that actually proves coverage rather than sampling it.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4235` — Design and enforce an access-control policy inside an application, and test that the policy actually holds. |
+| Industry | Close an IDOR and a privilege-escalation path in a running service, and show there is no cross-tenant leakage on any route — not only the routes somebody happened to click. |
+| Beyond the bar | Authorization is proved by a data-driven role × resource × action matrix covering every combination, not by a handful of manual checks — `exercises/exercise-03-authz-test-matrix.md` |
+
 ## Prerequisites
 
 - **Week 1 completed** — your isolated `appsec-lab` Docker network is up and verified.

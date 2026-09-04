@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Sign and verify** a build artifact so a tampered or unapproved artifact cannot reach the deploy step, and explain how this compares to the industry's keyless-signing (Sigstore/SLSA) approach.
 - **Store** every gate result, finding, and signature-verification outcome as queryable rows in a SQL database — never a spreadsheet, never a Slack message nobody can query later.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CSC 515` — Place security activities across every phase of the development lifecycle, including automated verification in the build pipeline. |
+| Industry | Turn scanners into gates whose failure stops the build, pin every third-party action to a commit SHA, cut runner permissions to least privilege, and sign the artifact that reaches deploy. |
+| Beyond the bar | The learner exploits a context-expression shell injection in their own pipeline locally, patches it, then writes the detector for the pattern — `challenges/challenge-02-attack-and-defend-a-pipeline.md` |
+
 ## Prerequisites
 
 - **Weeks 1–9 completed**, specifically: your isolated lab discipline (Week 1), STRIDE threat modeling (Week 2), Week 7's secrets-management habits, Week 8's Semgrep/Trivy tooling (this week reuses both directly — you are not learning new scanners, you're learning to make the ones you already know **block a build**), and Week 9's supply-chain vocabulary (dependency confusion, typosquatting — this week applies the same thinking to the pipeline's own third-party dependencies: GitHub Actions).

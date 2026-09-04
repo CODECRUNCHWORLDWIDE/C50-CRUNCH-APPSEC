@@ -11,6 +11,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) Only if the file was never `.gitignore`d.
 - D) Only if someone already cloned the repo before the deletion.
 
+<details>
+<summary>Answer</summary>
+
+**B** — deleting a file in a new commit doesn't remove it from earlier commits; the blob is reachable via `git log -p`/`git show` until history is rewritten and old objects are pruned/garbage-collected.
+
+</details>
+
 ---
 
 **Q2.** Which command lets you read a file's exact contents as they existed at a specific historical commit, even if the file no longer exists on the current branch?
@@ -19,6 +26,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) `git diff`
 - C) `git show <commit-hash>:<path>`
 - D) `git blame`
+
+<details>
+<summary>Answer</summary>
+
+**C** — `git show <commit>:<path>` prints a file's exact contents as of that commit, regardless of what the working tree or `HEAD` currently look like.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) Git requires the working tree to be clean before rotation.
 - D) It doesn't matter which comes first.
 
+<details>
+<summary>Answer</summary>
+
+**B** — purging history is cleanup after the fact; rotation is what actually neutralizes the exposure, because the secret must be assumed compromised the moment it was ever pushed.
+
+</details>
+
 ---
 
 **Q4.** What's the main risk of logging a secret value, even at "debug" level?
@@ -37,6 +58,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) Log files/aggregators are often readable by a much larger audience than the source repo, and the leak isn't visible in code review.
 - C) Logging a secret is functionally identical to not logging it.
 - D) There is no risk if the log file is deleted after 24 hours.
+
+<details>
+<summary>Answer</summary>
+
+**B** — logs typically flow to aggregators with a much broader read audience than the source repo, and unlike a hardcoded secret, a logged one is invisible to code review.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) A digital signature
 - D) An HMAC
 
+<details>
+<summary>Answer</summary>
+
+**B** — a hash needs no key and answers "does this match," which is exactly an integrity check; encryption and signing both require key material this scenario doesn't need.
+
+</details>
+
 ---
 
 **Q6.** Why is SHA-256 the wrong choice for hashing passwords, even though it's a fine choice for file-integrity checks?
@@ -55,6 +90,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) SHA-256 is fast, and password storage needs a deliberately slow, memory-hard function (bcrypt/scrypt/Argon2) to resist brute-force guessing.
 - C) SHA-256 doesn't produce a fixed-size output.
 - D) SHA-256 requires a key, which passwords don't have.
+
+<details>
+<summary>Answer</summary>
+
+**B** — SHA-256's speed is a feature for integrity checks and a liability for passwords, where you want brute-forcing to be expensive; that's the entire reason bcrypt/scrypt/Argon2 exist as a separate category from general-purpose hashes.
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) Tamper detection — decryption fails loudly if the ciphertext (or associated data) was altered.
 - D) The ability to decrypt without the key.
 
+<details>
+<summary>Answer</summary>
+
+**C** — authenticated modes add a MAC/tag so any tampering with the ciphertext causes decryption to fail loudly, instead of silently returning altered plaintext.
+
+</details>
+
 ---
 
 **Q8.** Two 16-byte plaintext blocks are identical. Under AES-**ECB** mode, what happens to their ciphertext?
@@ -73,6 +122,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) The ciphertext blocks will always differ, because AES is a strong cipher.
 - C) ECB mode refuses to encrypt repeated blocks.
 - D) It depends on the key length.
+
+<details>
+<summary>Answer</summary>
+
+**A** — ECB encrypts each block independently with no chaining, so identical plaintext blocks always produce identical ciphertext blocks — the defining structural weakness of the mode.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) AES will throw an error if the IV is all zeros.
 - D) Static IVs only matter for ECB mode, not CBC.
 
+<details>
+<summary>Answer</summary>
+
+**B** — CBC's IV must be unique per encryption; reusing it collapses one of CBC's core guarantees and, at minimum, reveals when two messages under the same key and IV are identical.
+
+</details>
+
 ---
 
 **Q10.** Why is `random.randint()` unsafe for generating an encryption key or a security token?
@@ -91,6 +154,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) Its output is deterministic given its internal state/seed and is not designed to resist prediction — the opposite of what a security-relevant value needs.
 - C) It's too slow for production use.
 - D) It requires a network connection.
+
+<details>
+<summary>Answer</summary>
+
+**B** — `random`'s Mersenne Twister PRNG is fast and high-quality for simulations but fully determined by its internal state, which can often be reconstructed from observed output — the opposite of what an unguessable key or token requires.
+
+</details>
 
 ---
 
@@ -101,6 +171,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) It can only encrypt text, not binary data.
 - D) XOR is not a real mathematical operation.
 
+<details>
+<summary>Answer</summary>
+
+**B** — no authentication (undetected tampering) and key reuse across messages (which lets an attacker XOR two ciphertexts together and cancel the key out entirely) are two separate, independent failures.
+
+</details>
+
 ---
 
 **Q12.** In this week's `/webhook` route, `if given == expected:` compares a submitted signature to the correct one. Why is this specific comparison unsafe, independent of whether the signature values are ever logged?
@@ -109,6 +186,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) `==` short-circuits at the first mismatched character, creating a timing side-channel an attacker can use to guess a valid signature byte by byte.
 - C) `==` cannot compare hex strings.
 - D) `expected` is computed with the wrong hash algorithm.
+
+<details>
+<summary>Answer</summary>
+
+**B** — `==` on strings returns as soon as it hits a mismatched character, so response timing correlates with how many leading characters were correct — a measurable side channel over enough network samples.
+
+</details>
 
 ---
 
@@ -119,6 +203,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) Convert both strings to uppercase before comparing.
 - D) Use `<` instead of `==`.
 
+<details>
+<summary>Answer</summary>
+
+**B** — `hmac.compare_digest()` is specifically designed to take the same amount of time regardless of where (or whether) the two values differ.
+
+</details>
+
 ---
 
 **Q14.** What's the core difference between what encryption proves and what a digital signature proves?
@@ -127,6 +218,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - B) Encryption proves confidentiality (only the intended party can read it); a signature proves authenticity and integrity (who sent it, and that it wasn't altered) without necessarily hiding the content.
 - C) Signatures require a shared secret; encryption never does.
 - D) Encryption is always asymmetric; signatures are always symmetric.
+
+<details>
+<summary>Answer</summary>
+
+**B** — encryption's job is confidentiality; a signature's job is proving origin and integrity, and a signed message is not thereby hidden from anyone who can read it.
+
+</details>
 
 ---
 
@@ -137,29 +235,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 8. A mix 
 - C) A new, different credential has been issued and the old one has been invalidated at the provider (e.g., Stripe), regardless of whether history has been purged.
 - D) The finding has been open for less than 24 hours.
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal after attempting</summary>
+<summary>Answer</summary>
 
-1. **B** — deleting a file in a new commit doesn't remove it from earlier commits; the blob is reachable via `git log -p`/`git show` until history is rewritten and old objects are pruned/garbage-collected.
-2. **C** — `git show <commit>:<path>` prints a file's exact contents as of that commit, regardless of what the working tree or `HEAD` currently look like.
-3. **B** — purging history is cleanup after the fact; rotation is what actually neutralizes the exposure, because the secret must be assumed compromised the moment it was ever pushed.
-4. **B** — logs typically flow to aggregators with a much broader read audience than the source repo, and unlike a hardcoded secret, a logged one is invisible to code review.
-5. **B** — a hash needs no key and answers "does this match," which is exactly an integrity check; encryption and signing both require key material this scenario doesn't need.
-6. **B** — SHA-256's speed is a feature for integrity checks and a liability for passwords, where you want brute-forcing to be expensive; that's the entire reason bcrypt/scrypt/Argon2 exist as a separate category from general-purpose hashes.
-7. **C** — authenticated modes add a MAC/tag so any tampering with the ciphertext causes decryption to fail loudly, instead of silently returning altered plaintext.
-8. **A** — ECB encrypts each block independently with no chaining, so identical plaintext blocks always produce identical ciphertext blocks — the defining structural weakness of the mode.
-9. **B** — CBC's IV must be unique per encryption; reusing it collapses one of CBC's core guarantees and, at minimum, reveals when two messages under the same key and IV are identical.
-10. **B** — `random`'s Mersenne Twister PRNG is fast and high-quality for simulations but fully determined by its internal state, which can often be reconstructed from observed output — the opposite of what an unguessable key or token requires.
-11. **B** — no authentication (undetected tampering) and key reuse across messages (which lets an attacker XOR two ciphertexts together and cancel the key out entirely) are two separate, independent failures.
-12. **B** — `==` on strings returns as soon as it hits a mismatched character, so response timing correlates with how many leading characters were correct — a measurable side channel over enough network samples.
-13. **B** — `hmac.compare_digest()` is specifically designed to take the same amount of time regardless of where (or whether) the two values differ.
-14. **B** — encryption's job is confidentiality; a signature's job is proving origin and integrity, and a signed message is not thereby hidden from anyone who can read it.
-15. **C** — neither removing the working-tree file (A) nor purging history (B) neutralizes a secret that may already have been seen or copied elsewhere; only issuing a new credential and invalidating the old one at the actual provider makes the row honestly `rotated`.
+**C** — neither removing the working-tree file (A) nor purging history (B) neutralizes a secret that may already have been seen or copied elsewhere; only issuing a new credential and invalidating the old one at the actual provider makes the row honestly `rotated`.
 
 </details>
 
 **Scoring:** 12+ → start Week 8. 9–11 → re-read the lecture sections behind your misses. <9 → re-read all three lectures from the top; secrets and crypto mistakes compound silently, and this course assumes this week's habits are automatic from here on.
+
+---

@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Write** a custom Semgrep rule that catches an app-specific vulnerable pattern no generic ruleset flags, and prove it fires on the bad case and stays silent on the safe one.
 - **Store and query** the full findings backlog in a database — SQLite via SQL and Python — extending the same `appsec.db` you've built since Week 1, never a spreadsheet.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CIS 4365` — Apply static, dynamic and dependency analysis to a codebase, and interpret and triage what comes back. |
+| Industry | Run three scanners over one system, confirm the true positives with evidence, dismiss the false positives with a written reason, and merge what is left into a single ranked backlog. |
+| Beyond the bar | The learner authors a static-analysis rule for an app-specific pattern no public ruleset flags, and proves it with a true-positive and a true-negative run — `challenges/challenge-01-write-a-custom-sast-rule.md` |
+
 ## Prerequisites
 
 - Week 1's isolated lab (`appsec-lab` Docker network, Juice Shop / DVWA / WebGoat) still standing, plus your `appsec.db` from Weeks 1–7 with its `targets`, `attack_surface`, and `risks` tables.

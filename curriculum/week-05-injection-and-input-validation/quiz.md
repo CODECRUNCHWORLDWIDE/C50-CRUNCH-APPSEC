@@ -11,6 +11,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) The database doesn't have a firewall in front of it
 - D) The application uses too many library dependencies
 
+<details>
+<summary>Answer</summary>
+
+**B** — every context in this week (SQL, shell, LDAP, templates) shares this one root cause: data and instructions aren't kept separate across a trust boundary.
+
+</details>
+
 ---
 
 **Q2.** Given `f"WHERE username = '{username}' AND password = '{password}'"`, which `username` value causes the password check to be discarded entirely?
@@ -19,6 +26,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) `' OR 1=1`
 - C) `admin'-- `
 - D) `<script>alert(1)</script>`
+
+<details>
+<summary>Answer</summary>
+
+**C** — `admin'-- ` closes the username's quote and comments out everything after it, including the password check, with SQL's `--` comment syntax.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) SQLite ignores numeric WHERE clauses
 - D) Only string columns can be injected
 
+<details>
+<summary>Answer</summary>
+
+**B** — with no quotes at all, there's nothing to "escape out of" in the first place; any valid SQL syntax typed in that position becomes part of the query directly, which is exactly why "the fix is escaping quotes" is a category error.
+
+</details>
+
 ---
 
 **Q4.** A parameterized query is safe because:
@@ -37,6 +58,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) The query structure is parsed separately from, and before, the data values are substituted in as literal values
 - C) It automatically removes all special characters from the input
 - D) It runs the query twice to check for consistency
+
+<details>
+<summary>Answer</summary>
+
+**B** — the database parses the query structure first, with placeholders standing in for not-yet-arrived values; the data is bound in afterward, purely as literal values, never re-parsed as syntax.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) `text("SELECT * FROM users WHERE username = :u"), {"u": username}`
 - D) `text("SELECT * FROM users WHERE username = %s" % username)`
 
+<details>
+<summary>Answer</summary>
+
+**C** — bound `:u` parameter passed as a separate dict. A, B, and D all build the SQL text by string interpolation before it reaches `text()`, defeating the point of using it.
+
+</details>
+
 ---
 
 **Q6.** Escaping input by hand (e.g., doubling `'` characters) is not a sufficient primary defense against SQL injection because:
@@ -55,6 +90,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) It's context-dependent, easy to apply inconsistently, and doesn't protect against second-order injection the way parameterization does
 - C) Modern databases ignore escaped characters
 - D) It only works on PostgreSQL, not SQLite
+
+<details>
+<summary>Answer</summary>
+
+**B** — escaping is context-dependent and easy to apply inconsistently (miss one query, one context, one code path and you're exposed), and a value escaped on the way in doesn't protect a second query built later from data already stored unescaped in the database (second-order injection). Parameterization has neither problem.
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) Two separate shell commands executing: `ping -c 1 127.0.0.1` and then `whoami`
 - D) Nothing — Python strips shell metacharacters automatically
 
+<details>
+<summary>Answer</summary>
+
+**C** — `;` is a shell command separator; the shell runs `ping -c 1 127.0.0.1`, then separately runs `whoami`.
+
+</details>
+
 ---
 
 **Q8.** The core reason an **allowlist** validator is preferred over a **blocklist** for the `/diagnostics/ping` host field is:
@@ -73,6 +122,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) A blocklist must anticipate every dangerous pattern in advance; an allowlist only needs to define what a valid hostname/IP looks like, rejecting everything else by default
 - C) Blocklists are deprecated in Python 3.10+
 - D) Allowlists don't require any code at all
+
+<details>
+<summary>Answer</summary>
+
+**B** — a blocklist must guess every dangerous pattern in advance and will always miss one; an allowlist just defines the (much smaller, well-understood) shape of valid input and rejects everything else by default, including patterns nobody thought of.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) It automatically validates `host` for you
 - D) It only works with IP addresses, not hostnames
 
+<details>
+<summary>Answer</summary>
+
+**B** — list-form `subprocess.run` never invokes `/bin/sh` to parse the command, so there is no interpreter present for `;`, `&&`, backticks, etc. to mean anything to.
+
+</details>
+
 ---
 
 **Q10.** What distinguishes **stored** XSS from **reflected** XSS?
@@ -91,6 +154,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) Reflected XSS requires a database; stored XSS doesn't
 - C) Stored XSS persists (e.g., in a database) and can fire for every later visitor; reflected XSS requires the victim to submit or click a crafted request right now
 - D) There is no meaningful difference
+
+<details>
+<summary>Answer</summary>
+
+**C** — stored XSS is saved (e.g., to a database) and fires for every subsequent visitor who loads the page; reflected XSS needs a victim to submit/click the malicious payload in the current request.
+
+</details>
 
 ---
 
@@ -101,6 +171,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) It blocks the `/notes/new` route entirely
 - D) `|safe` only affects CSS, not HTML
 
+<details>
+<summary>Answer</summary>
+
+**B** — Jinja2 autoescapes by default; `|safe` was the only thing suppressing that. Removing it restores HTML-entity encoding on that value.
+
+</details>
+
 ---
 
 **Q12.** Why is DOM-based XSS (like VULN #7 in `/welcome`) not fixed by server-side output encoding?
@@ -109,6 +186,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) The vulnerable data flow (URL → JavaScript → `innerHTML`) never touches the server at all — the fix has to live in the client-side JavaScript
 - C) DOM XSS is not a real vulnerability class
 - D) Server-side encoding is always sufficient; the premise is false
+
+<details>
+<summary>Answer</summary>
+
+**B** — the attacker-controlled data (`location.search`) is read and written into the DOM entirely inside the browser's own JavaScript; the server never sees or handles this data at all in the DOM XSS case, so server-side fixes are irrelevant to it.
+
+</details>
 
 ---
 
@@ -119,6 +203,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) A server-side input validation library
 - D) A replacement for parameterized queries
 
+<details>
+<summary>Answer</summary>
+
+**B** — CSP is a browser-enforced, defense-in-depth backstop, not a substitute for getting output encoding right in the first place.
+
+</details>
+
 ---
 
 **Q14.** In a **boolean-blind** SQL injection against an endpoint that only ever returns `"User found."` or `"Not found."`, the attacker's one bit of signal per request comes from:
@@ -127,6 +218,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - B) The exact data value being reflected back
 - C) Which of the two fixed responses came back for a given injected condition
 - D) The HTTP status code always being 500 on success
+
+<details>
+<summary>Answer</summary>
+
+**C** — the only signal is which of the two possible fixed responses the server sent back for a given injected true/false condition; there's no error text or data value involved.
+
+</details>
 
 ---
 
@@ -137,29 +235,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 6. A mix 
 - C) The response is always exactly 3 bytes shorter
 - D) The server crashes
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal after attempting</summary>
+<summary>Answer</summary>
 
-1. **B** — every context in this week (SQL, shell, LDAP, templates) shares this one root cause: data and instructions aren't kept separate across a trust boundary.
-2. **C** — `admin'-- ` closes the username's quote and comments out everything after it, including the password check, with SQL's `--` comment syntax.
-3. **B** — with no quotes at all, there's nothing to "escape out of" in the first place; any valid SQL syntax typed in that position becomes part of the query directly, which is exactly why "the fix is escaping quotes" is a category error.
-4. **B** — the database parses the query structure first, with placeholders standing in for not-yet-arrived values; the data is bound in afterward, purely as literal values, never re-parsed as syntax.
-5. **C** — bound `:u` parameter passed as a separate dict. A, B, and D all build the SQL text by string interpolation before it reaches `text()`, defeating the point of using it.
-6. **B** — escaping is context-dependent and easy to apply inconsistently (miss one query, one context, one code path and you're exposed), and a value escaped on the way in doesn't protect a second query built later from data already stored unescaped in the database (second-order injection). Parameterization has neither problem.
-7. **C** — `;` is a shell command separator; the shell runs `ping -c 1 127.0.0.1`, then separately runs `whoami`.
-8. **B** — a blocklist must guess every dangerous pattern in advance and will always miss one; an allowlist just defines the (much smaller, well-understood) shape of valid input and rejects everything else by default, including patterns nobody thought of.
-9. **B** — list-form `subprocess.run` never invokes `/bin/sh` to parse the command, so there is no interpreter present for `;`, `&&`, backticks, etc. to mean anything to.
-10. **C** — stored XSS is saved (e.g., to a database) and fires for every subsequent visitor who loads the page; reflected XSS needs a victim to submit/click the malicious payload in the current request.
-11. **B** — Jinja2 autoescapes by default; `|safe` was the only thing suppressing that. Removing it restores HTML-entity encoding on that value.
-12. **B** — the attacker-controlled data (`location.search`) is read and written into the DOM entirely inside the browser's own JavaScript; the server never sees or handles this data at all in the DOM XSS case, so server-side fixes are irrelevant to it.
-13. **B** — CSP is a browser-enforced, defense-in-depth backstop, not a substitute for getting output encoding right in the first place.
-14. **C** — the only signal is which of the two possible fixed responses the server sent back for a given injected true/false condition; there's no error text or data value involved.
-15. **B** — an unusually long response time, roughly matching the injected delay, is the entire signal in a time-based blind technique — no error, no data, no length difference to rely on.
+**B** — an unusually long response time, roughly matching the injected delay, is the entire signal in a time-based blind technique — no error, no data, no length difference to rely on.
 
 </details>
 
 **Scoring:** 12+ → start Week 6. 9–11 → re-read the lecture sections behind your misses. <9 → re-read all three lectures from the top; injection is the highest-leverage vulnerability class in this entire course, worth getting solid before moving on.
+
+---

@@ -19,6 +19,14 @@ By the end of this week, you will be able to:
 - **Store a threat model as queryable data** — an `elements` table and a `threats` table in SQLite, populated with SQL or Python — so "what's our top 5 risk?" is one query, not a spreadsheet scroll.
 - **Know when to stop** — threat modeling has diminishing returns past a certain depth; you'll practice time-boxing a pass instead of chasing an exhaustive, paralyzing one.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4235` — Construct a threat model of a software design: a data-flow diagram, its trust boundaries, a structured threat taxonomy, and ranked mitigations. |
+| Industry | Run a design review on a system before it ships and hand the development team a risk-ranked list of threats, each one paired with a concrete control and a disposition. |
+| Beyond the bar | The threat model is stored as queryable rows rather than a document, so "every open high-risk tampering threat" is one query instead of a scroll — `exercises/exercise-03-threat-model-as-data.md` |
+
 ## Prerequisites
 
 - **Week 1 completed**, specifically: your isolated `appsec-lab` Docker network is up, with **Juice Shop** reachable at `localhost:3000` and (ideally) DVWA at `localhost:3001` and WebGoat at `localhost:3002`. If any container isn't running, `docker compose up -d` from your Week 1 lab directory before you start.

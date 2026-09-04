@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Use vetted libraries correctly** and name the specific mistakes that break homemade or misused crypto: ECB mode, a static or reused IV/nonce, a non-cryptographic RNG for keys or tokens, and non-constant-time comparisons for secrets.
 - **Store secret-scanning findings and remediation status in a database** (SQLite via Python) — every finding is a row, every fix is a status change, and "done" means the database says so, not a memory of having fixed it.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CSC 515` — Apply cryptographic primitives correctly and manage keys and secrets across an application's lifecycle. |
+| Industry | Find every secret in a repository including the ones a later commit "removed", purge the history, rotate the credential, and record the remediation status where it can be queried. |
+| Beyond the bar | It asks for a complete dev → CI → production secrets pipeline with a named rotation plan — who rotates what, how often, and how a leak is handled — rather than the advice to rotate periodically — `challenges/challenge-02-design-a-secrets-workflow.md` |
+
 ## Prerequisites
 
 - **Weeks 1–6 completed.** Specifically: your isolated lab is up (Week 1), you can name a trust boundary (Week 2), you know A02:2021 Cryptographic Failures and A05:2021 Security Misconfiguration by name (Week 3), you've hardened password storage with a KDF (Week 4) — which is itself a hashing primitive, so this week extends that vocabulary rather than starting over — and you've fixed injection and access-control bugs (Weeks 5–6) in code that, this week, turns out to *also* have hardcoded secrets sitting in it. Real apps stack flaws; this week's lab is no exception.

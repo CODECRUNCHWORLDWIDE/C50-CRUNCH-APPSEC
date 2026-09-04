@@ -11,6 +11,13 @@ Fifteen questions. Lectures closed. Aim for 12/15 before starting Week 10. A mix
 - C) The API Top 10 was published first and the web Top 10 copied it
 - D) APIs never use databases, so different bugs apply
 
+<details>
+<summary>Answer</summary>
+
+**B** — no HTML/UI layer to hide a field from a user, and every endpoint must assume programmatic, out-of-sequence, script-rate calls — the two structural differences Lecture 1 opens with.
+
+</details>
+
 ---
 
 **Q2.** This code is vulnerable to which category?
@@ -26,6 +33,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) Mass assignment
 - D) Missing rate limiting
 
+<details>
+<summary>Answer</summary>
+
+**B** — an object (a task) is fetched by client-supplied ID with no check that the requesting caller actually owns it: the textbook BOLA.
+
+</details>
+
 ---
 
 **Q3.** A route correctly checks that a valid Bearer token was presented, but never checks whether the token's `role` is `admin` before performing an admin-only delete. This is:
@@ -34,6 +48,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) BFLA — Broken Function-Level Authorization
 - C) Excessive data exposure
 - D) Not a vulnerability, since a valid token was presented
+
+<details>
+<summary>Answer</summary>
+
+**B** — the route checked *authentication* (a valid token exists) but never *authorization* (does this token's role permit this specific function) — exactly the BFLA pattern.
+
+</details>
 
 ---
 
@@ -44,6 +65,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) It's slower than a static query
 - D) JSON doesn't support dictionaries
 
+<details>
+<summary>Answer</summary>
+
+**B** — building the column list from the client's own JSON keys means the client controls which columns get written, including ones like `user_id` that were never meant to be client-settable.
+
+</details>
+
 ---
 
 **Q5.** Excessive data exposure and mass assignment are best described as:
@@ -52,6 +80,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) Two directions (read and write) of the same missing control: an explicit allowlist of which object properties may cross the API boundary
 - C) The same exact bug with two different names
 - D) Only relevant to APIs that don't use HTTPS
+
+<details>
+<summary>Answer</summary>
+
+**B** — mass assignment is the write-side failure to allowlist properties; excessive data exposure is the read-side failure of the same missing control.
+
+</details>
 
 ---
 
@@ -62,6 +97,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) Flask doesn't support returning 403 from this kind of route
 - D) There is no meaningful difference between the two
 
+<details>
+<summary>Answer</summary>
+
+**B** — a 403 confirms existence and ownership by someone else; a uniform 404 for "doesn't exist" and "not yours" gives an attacker probing IDs no extra information.
+
+</details>
+
 ---
 
 **Q7.** A JWT's payload (the claims section) is:
@@ -70,6 +112,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) Base64-encoded, not encrypted — anyone holding the token can decode and read every claim
 - C) Stored only on the server, never sent to the client
 - D) Automatically rotated every request
+
+<details>
+<summary>Answer</summary>
+
+**B** — JWT payloads are base64-encoded (trivially decodable), not encrypted; only the signature (not the payload) is cryptographically protected against tampering.
+
+</details>
 
 ---
 
@@ -80,6 +129,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) JWTs cannot include a user ID
 - D) JWTs require a database lookup on every request, defeating their purpose
 
+<details>
+<summary>Answer</summary>
+
+**B** — a JWT remains valid until its `exp` claim expires regardless of what happens to the account afterward, unless a separate revocation mechanism (denylist, short expiry + refresh, token-version check) is built.
+
+</details>
+
 ---
 
 **Q9.** What does a `marshmallow`/`pydantic` schema validate that a manual `{k: v for k, v in data.items() if k in ALLOWED}` allowlist does not?
@@ -88,6 +144,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) Types and shape constraints (e.g., a string where a string is expected, a length limit), on top of restricting which fields are present
 - C) Whether the request used HTTPS
 - D) The client's IP address
+
+<details>
+<summary>Answer</summary>
+
+**B** — schemas add type checking and shape/length constraints on top of the field-presence filtering a manual allowlist already does.
+
+</details>
 
 ---
 
@@ -98,6 +161,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) Rate limiting is unrelated to authentication and the order doesn't matter
 - D) Flask requires rate limiting to be the first decorator applied
 
+<details>
+<summary>Answer</summary>
+
+**B** — throttling before authentication means an attacker flooding the endpoint gets rate-limited before the server spends any effort verifying (rejecting) their credentials, reducing wasted work and slowing brute-force attempts overall.
+
+</details>
+
 ---
 
 **Q11.** In the local dependency-confusion demo, the "public" impostor package (version `9.9.9`) gets installed instead of the real internal package (version `1.0.0`) because:
@@ -106,6 +176,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) `pip` prefers the highest version number across all configured sources by default, regardless of which source is "supposed" to be authoritative
 - C) SQLite corrupted the internal package
 - D) The internal package name was misspelled
+
+<details>
+<summary>Answer</summary>
+
+**B** — `pip`'s default behavior is to prefer the highest version number it can find across every configured source, regardless of which source is "supposed" to be authoritative for that name.
+
+</details>
 
 ---
 
@@ -116,6 +193,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) Always installing the newest version of everything
 - D) Disabling `pip` and only using manually downloaded files
 
+<details>
+<summary>Answer</summary>
+
+**B** — reserving/scoping the private name (or removing the public fallback entirely) makes the name collision itself impossible, rather than merely less likely.
+
+</details>
+
 ---
 
 **Q13.** `pip install --require-hashes -r requirements.lock.txt` protects against:
@@ -124,6 +208,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - B) A package being served under the exact right name and version but with tampered file contents — the hash check fails if even one byte differs from what was pinned
 - C) Slow network connections
 - D) Nothing that plain version pinning (`flask==3.0.3`) doesn't already cover
+
+<details>
+<summary>Answer</summary>
+
+**B** — hash verification checks the actual byte content of the downloaded file against a pinned hash, catching tampering that a plain `name==version` pin cannot, since a tampered file can still claim the exact right name and version.
+
+</details>
 
 ---
 
@@ -134,6 +225,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) Is only useful for licensing questions, never security
 - D) Replaces the need for a `requirements.txt` entirely
 
+<details>
+<summary>Answer</summary>
+
+**B** — an SBOM is an inventory, not a scanner; it's the prerequisite that makes scanning, provenance checks, and rapid CVE-impact assessment possible, but it does not itself detect a single vulnerability.
+
+</details>
+
 ---
 
 **Q15.** Why is "always take the latest version of every dependency" not a safe default against a compromised-package attack, even though it's a reasonable default against already-known, already-scanned vulnerabilities?
@@ -143,29 +241,13 @@ row = db.execute("SELECT * FROM tasks WHERE id = ?", (task_id,)).fetchone()
 - C) `pip` cannot install the latest version of anything
 - D) There is no real difference; latest is always safest
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal after attempting</summary>
+<summary>Answer</summary>
 
-1. **B** — no HTML/UI layer to hide a field from a user, and every endpoint must assume programmatic, out-of-sequence, script-rate calls — the two structural differences Lecture 1 opens with.
-2. **B** — an object (a task) is fetched by client-supplied ID with no check that the requesting caller actually owns it: the textbook BOLA.
-3. **B** — the route checked *authentication* (a valid token exists) but never *authorization* (does this token's role permit this specific function) — exactly the BFLA pattern.
-4. **B** — building the column list from the client's own JSON keys means the client controls which columns get written, including ones like `user_id` that were never meant to be client-settable.
-5. **B** — mass assignment is the write-side failure to allowlist properties; excessive data exposure is the read-side failure of the same missing control.
-6. **B** — a 403 confirms existence and ownership by someone else; a uniform 404 for "doesn't exist" and "not yours" gives an attacker probing IDs no extra information.
-7. **B** — JWT payloads are base64-encoded (trivially decodable), not encrypted; only the signature (not the payload) is cryptographically protected against tampering.
-8. **B** — a JWT remains valid until its `exp` claim expires regardless of what happens to the account afterward, unless a separate revocation mechanism (denylist, short expiry + refresh, token-version check) is built.
-9. **B** — schemas add type checking and shape/length constraints on top of the field-presence filtering a manual allowlist already does.
-10. **B** — throttling before authentication means an attacker flooding the endpoint gets rate-limited before the server spends any effort verifying (rejecting) their credentials, reducing wasted work and slowing brute-force attempts overall.
-11. **B** — `pip`'s default behavior is to prefer the highest version number it can find across every configured source, regardless of which source is "supposed" to be authoritative for that name.
-12. **B** — reserving/scoping the private name (or removing the public fallback entirely) makes the name collision itself impossible, rather than merely less likely.
-13. **B** — hash verification checks the actual byte content of the downloaded file against a pinned hash, catching tampering that a plain `name==version` pin cannot, since a tampered file can still claim the exact right name and version.
-14. **B** — an SBOM is an inventory, not a scanner; it's the prerequisite that makes scanning, provenance checks, and rapid CVE-impact assessment possible, but it does not itself detect a single vulnerability.
-15. **B** — a compromised maintainer account can publish a malicious version after your current pin; "always latest" would install that malicious version automatically, with zero scanning or review, the moment it's published.
+**B** — a compromised maintainer account can publish a malicious version after your current pin; "always latest" would install that malicious version automatically, with zero scanning or review, the moment it's published.
 
 </details>
 
 **Scoring:** 12+ → start Week 10. 9–11 → re-read the lecture sections behind your misses. <9 → re-read all three lectures from the top; Week 10 assumes this vocabulary — plus Weeks 3 and 6's authorization discipline — is automatic.
+
+---

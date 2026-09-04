@@ -11,6 +11,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) A data flow connecting two data stores directly, with no process between them
 - D) A data flow crossing a trust boundary
 
+<details>
+<summary>Answer</summary>
+
+**C** — a data flow must always pass through a process; skipping it hides exactly where a bug usually lives (Lecture 1, Section 6).
+
+</details>
+
 ---
 
 **Q2.** A trust boundary is best defined as:
@@ -19,6 +26,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) A place on the diagram where the level of trust changes — control or privilege changes hands
 - C) Any line drawn between two processes
 - D) The boundary of the company's legal jurisdiction
+
+<details>
+<summary>Answer</summary>
+
+**B** — a trust boundary marks where control or privilege changes, not a physical or legal boundary.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) Trust boundaries only exist in Level 2 diagrams
 - D) Boundaries always indicate a Denial of Service threat specifically
 
+<details>
+<summary>Answer</summary>
+
+**B** — crossing a boundary is exactly where an attacker's input first meets code that has to make a trust decision.
+
+</details>
+
 ---
 
 **Q4.** What does the "S" in STRIDE stand for, and which security property does it violate?
@@ -37,6 +58,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) Sabotage — availability
 - C) Snooping — confidentiality
 - D) Scaling — availability
+
+<details>
+<summary>Answer</summary>
+
+**A** — Spoofing violates authentication: can someone pretend to be who they're not.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) Spoofing
 - D) Denial of Service
 
+<details>
+<summary>Answer</summary>
+
+**C** — Spoofing never applies to a data store (or a data flow) — you don't authenticate *to* inert data, only to an actor (a process or an external entity).
+
+</details>
+
 ---
 
 **Q6.** Why does a **process** get checked against all six STRIDE categories, while an **external entity** gets checked against only Spoofing and Repudiation?
@@ -55,6 +90,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) A process is where logic executes, so every property can be violated by flawed logic; an external entity is outside your control, so you can only ask whether it can be impersonated or can deny an action
 - C) External entities are always more secure than processes
 - D) Processes are always slower, so they need more checks
+
+<details>
+<summary>Answer</summary>
+
+**B** — the STRIDE-per-element table's shape follows directly from what each element type actually *is*: an actor (spoof/repudiate), executing logic (all six), or inert data (tamper/disclose/deny-service, never spoof).
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) Information Disclosure
 - D) Denial of Service
 
+<details>
+<summary>Answer</summary>
+
+**C** — this leaks information (which emails have accounts) that shouldn't be distinguishable from a failed-password case.
+
+</details>
+
 ---
 
 **Q8.** Risk, as used in this week's scoring method, is calculated as:
@@ -73,6 +122,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) Likelihood × Impact
 - C) Impact only
 - D) Likelihood only
+
+<details>
+<summary>Answer</summary>
+
+**B** — risk = likelihood × impact, the formula used throughout Lecture 3.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) Always "eliminate"
 - D) Always "transfer"
 
+<details>
+<summary>Answer</summary>
+
+**B** — a high score tells you the threat is severe, but disposition is a separate decision about *how* to respond, made with the same rigor regardless of score.
+
+</details>
+
 ---
 
 **Q10.** Which of the following is a **valid** use of the "accept" disposition?
@@ -91,6 +154,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) A team documents, with a named decision-maker, that a risk-6 threat won't be addressed this quarter and will be revisited next quarter
 - C) A developer forgets to triage a threat at all
 - D) A threat is left with no disposition assigned
+
+<details>
+<summary>Answer</summary>
+
+**B** — accept must be a documented, deliberate decision by someone with authority; A, C, and D are all just unaddressed risk without the label.
+
+</details>
 
 ---
 
@@ -101,6 +171,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) SQLite is required by law for security data
 - D) Spreadsheets cannot be version-controlled at all
 
+<details>
+<summary>Answer</summary>
+
+**B** — the point of structured storage is repeatable queries and a single source of truth a generated report can't silently drift from.
+
+</details>
+
 ---
 
 **Q12.** What is the key difference between threat modeling and penetration testing?
@@ -109,6 +186,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) Threat modeling reasons about what *could* go wrong given a design, usable before code exists; penetration testing verifies whether something *does* go wrong in a running system
 - C) Penetration testing always happens first, then threat modeling
 - D) Threat modeling requires special tools; penetration testing requires none
+
+<details>
+<summary>Answer</summary>
+
+**B** — threat modeling is design-time reasoning about possibility; penetration testing is runtime verification of actuality. Neither substitutes for the other.
+
+</details>
 
 ---
 
@@ -119,6 +203,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) The node is a data store
 - D) The node represents a mitigated threat
 
+<details>
+<summary>Answer</summary>
+
+**B** — AND requires every child branch to succeed; OR (not this question's answer) means any one suffices.
+
+</details>
+
 ---
 
 **Q14.** According to Lecture 3's guidance on avoiding analysis paralysis, when should you explode a Level 1 process into a Level 2 diagram?
@@ -127,6 +218,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - B) Never — Level 2 diagrams are not part of this course's method
 - C) When that process's STRIDE pass surfaces a high-risk threat worth examining more closely — depth should follow risk, not curiosity
 - D) Only if the process has fewer than three data flows
+
+<details>
+<summary>Answer</summary>
+
+**C** — depth follows risk: explode a process to Level 2 only when its Level 1 STRIDE pass turns up something worth a closer look, not by default.
+
+</details>
 
 ---
 
@@ -137,29 +235,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 3. A mix 
 - C) Repudiation; Week 11
 - D) Spoofing; Week 4
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal after attempting</summary>
+<summary>Answer</summary>
 
-1. **C** — a data flow must always pass through a process; skipping it hides exactly where a bug usually lives (Lecture 1, Section 6).
-2. **B** — a trust boundary marks where control or privilege changes, not a physical or legal boundary.
-3. **B** — crossing a boundary is exactly where an attacker's input first meets code that has to make a trust decision.
-4. **A** — Spoofing violates authentication: can someone pretend to be who they're not.
-5. **C** — Spoofing never applies to a data store (or a data flow) — you don't authenticate *to* inert data, only to an actor (a process or an external entity).
-6. **B** — the STRIDE-per-element table's shape follows directly from what each element type actually *is*: an actor (spoof/repudiate), executing logic (all six), or inert data (tamper/disclose/deny-service, never spoof).
-7. **C** — this leaks information (which emails have accounts) that shouldn't be distinguishable from a failed-password case.
-8. **B** — risk = likelihood × impact, the formula used throughout Lecture 3.
-9. **B** — a high score tells you the threat is severe, but disposition is a separate decision about *how* to respond, made with the same rigor regardless of score.
-10. **B** — accept must be a documented, deliberate decision by someone with authority; A, C, and D are all just unaddressed risk without the label.
-11. **B** — the point of structured storage is repeatable queries and a single source of truth a generated report can't silently drift from.
-12. **B** — threat modeling is design-time reasoning about possibility; penetration testing is runtime verification of actuality. Neither substitutes for the other.
-13. **B** — AND requires every child branch to succeed; OR (not this question's answer) means any one suffices.
-14. **C** — depth follows risk: explode a process to Level 2 only when its Level 1 STRIDE pass turns up something worth a closer look, not by default.
-15. **B** — this is Elevation of Privilege (a normal user gains admin-level access because authorization was never actually checked), and Week 6 (access control, deny-by-default authorization) is where you build the fix.
+**B** — this is Elevation of Privilege (a normal user gains admin-level access because authorization was never actually checked), and Week 6 (access control, deny-by-default authorization) is where you build the fix.
 
 </details>
 
 **Scoring:** 13+ → start Week 3. 10–12 → re-read the lecture sections behind your misses. <10 → re-read all three lectures from the top; STRIDE-per-element is the method every remaining week of this course assumes you have.
+
+---

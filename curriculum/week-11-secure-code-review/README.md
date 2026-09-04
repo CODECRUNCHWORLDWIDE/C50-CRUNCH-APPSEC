@@ -16,6 +16,14 @@ By the end of this week, you will be able to:
 - **Write findings a developer can act on** — specific location, reproducible steps, real impact, a concrete source-level fix, correct severity — and avoid the two failure modes that make a report useless: vague hand-waving and the false alarm that burns trust.
 - **Track review findings and their resolution status in a database**, so "we found it" turns into "we fixed it, and here's the retest that proves it" instead of a bullet point nobody follows up on.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CIS 4365` — Conduct a secure code review and write findings a developer can act on. |
+| Industry | Review a pull request you did not write: map its entry points, trace untrusted input to every dangerous sink, and hand back findings with location, reproduction, impact and a source-level fix. |
+| Beyond the bar | A measured bake-off against a scanner over the same code, reported in both directions — including the findings the scanner caught and the learner missed — `challenges/challenge-02-review-versus-scanner.md` |
+
 ## Prerequisites
 
 - **Weeks 1–7 completed.** Specifically: your isolated `appsec-lab` is up (Week 1); you can name a trust boundary and read a data-flow diagram (Week 2); you know the OWASP Top 10 by name (Week 3); you've hardened login and sessions (Week 4); you've fixed injection with parameterized queries (Week 5); you've fixed IDOR and privilege escalation with ownership-filtered queries and role checks (Week 6); and you've found and fixed hardcoded secrets and homemade crypto (Week 7). This week's review method exists specifically to verify all five of those controls are actually in a codebase — you're checking your own recent work against itself.

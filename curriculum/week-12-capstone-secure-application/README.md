@@ -20,6 +20,14 @@ By the end of this week, you will be able to:
 - **Remediate at the source and re-test**, proving with a logged, repeatable check that every finding you claim is fixed is actually fixed — not just edited and forgotten.
 - **Defend the design**: explain, to a reviewer who did not watch you build it, why each control is shaped the way it is, what residual risk remains, and why that residual risk is acceptable to ship.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4235` — Carry a secure-development project end to end and defend the design under questioning. |
+| Industry | Threat-model, build, scan, triage, remediate and re-test one application, then justify the residual risk you are shipping to somebody who did not watch you build it. |
+| Beyond the bar | It closes with a structured design-defense review that produces a signed residual-risk statement the learner keeps, rather than a mark only a registrar can see — `challenges/challenge-02-capstone-defense-review.md` |
+
 ## Prerequisites
 
 - **Weeks 1–11 completed**, or working knowledge of their content. Specifically: your isolated lab and written scope document are current (Week 1); you can produce a STRIDE model and DFD from a system description (Week 2); you can name OWASP Top 10 categories on sight (Week 3); you've hardened a login/session flow (Week 4); you default to parameterized queries and input validation (Week 5); you enforce ownership and role checks in the query, not an `if` bolted on after (Week 6); you manage secrets and pick the right crypto primitive (Week 7); you can wire and read SAST/DAST/SCA tool output (Week 8); you've secured an API and a dependency supply chain (Week 9); you've added security gates to an SDLC/CI pipeline (Week 10); and you can read a diff and flag a vulnerability by category, not just by gut feel (Week 11).

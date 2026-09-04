@@ -11,6 +11,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) A vulnerability is always caused by a threat.
 - D) A threat only exists after a vulnerability has already been exploited.
 
+<details>
+<summary>Answer</summary>
+
+**B** — a threat is a potential cause of harm (an actor or event); a vulnerability is the exploitable weakness. Risk requires both together.
+
+</details>
+
 ---
 
 **Q2.** A hardcoded database password is found in a public GitHub repository belonging to a live, internet-facing production application. What is the most defensible **likelihood** score (1–5)?
@@ -19,6 +26,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) 2 — unlikely, requires a sophisticated targeted attack
 - C) 4 or 5 — easily discoverable and trivially usable by anyone who finds the repo, including automated scanners that search public code for exactly this pattern
 - D) Likelihood doesn't apply to credential exposure
+
+<details>
+<summary>Answer</summary>
+
+**C** — publicly exposed, trivially discoverable credentials against a live production target are highly likely to be found and used; automated tools actively scan public repos for exactly this pattern.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) High (10–15)
 - D) Critical (16–25)
 
+<details>
+<summary>Answer</summary>
+
+**C** — 2 × 5 = 10, which falls in the High band (10–15).
+
+</details>
+
 ---
 
 **Q4.** An attacker modifies another user's order total by tampering with a request parameter, without needing to read anything else. Which CIA property is **primarily** violated?
@@ -37,6 +58,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) Integrity
 - C) Availability
 - D) None of the three — this isn't a security issue
+
+<details>
+<summary>Answer</summary>
+
+**B** — Integrity. Modifying data (the order total) that shouldn't be modifiable by this user is a write/tampering action, not a read — that's integrity, even though no confidential data was exposed.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) Risk only requires a threat, never a vulnerability.
 - D) This statement is false — a threat alone is always a risk.
 
+<details>
+<summary>Answer</summary>
+
+**B** — without an exploitable weakness for the threat to act through, the threat has no path to actually cause harm; risk is the product of both, never either alone.
+
+</details>
+
 ---
 
 **Q6.** Which of the following is the **best** description of "attack surface"?
@@ -55,6 +90,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) The complete set of points where an untrusted actor could interact with the system.
 - C) Only the endpoints listed in the public API documentation.
 - D) The total lines of code in the application.
+
+<details>
+<summary>Answer</summary>
+
+**B** — attack surface is every point where an untrusted actor could interact with the system, not a bug count, not just documented endpoints, and not a proxy for code size.
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) The developer used a weak password.
 - D) The database was left completely unencrypted.
 
+<details>
+<summary>Answer</summary>
+
+**B** — the endpoint was assumed to be "internal only," but that assumption was never actually enforced as a real network boundary or authorization check — an assumed-but-unenforced trust boundary, not a zero-day or a password issue.
+
+</details>
+
 ---
 
 **Q8.** Why does this course require findings, risk scores, and telemetry to be stored in SQL (or via Python), and explicitly **never** in a spreadsheet?
@@ -73,6 +122,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) Spreadsheets have no enforced schema or constraints, invite untracked silent edits, and don't give you real, repeatable queries the way a `findings` table does.
 - C) SQL is required by law for security work.
 - D) There's no real difference; it's a stylistic preference only.
+
+<details>
+<summary>Answer</summary>
+
+**B** — spreadsheets lack schema/constraints and invite silent, untracked edits; a `findings` table in SQL gives real, repeatable, auditable queries — the reason this course's data-tooling rule exists.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) `docker run -d -p 127.0.0.1:3000:3000 juice-shop`
 - D) All three are equally safe.
 
+<details>
+<summary>Answer</summary>
+
+**C** — `127.0.0.1:3000:3000` binds the published port to localhost only. Plain `3000:3000` and explicit `0.0.0.0:3000:3000` both publish to all network interfaces, making the target reachable from your whole LAN.
+
+</details>
+
 ---
 
 **Q10.** You've built what you believe is an isolated lab. What is the **correct** next step before running any exercise against it?
@@ -91,6 +154,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) Actively verify isolation from a second device on your network, confirming the lab is unreachable from outside your host.
 - C) Skip verification; it only matters for network-level (VM) labs, not Docker-based web-app labs.
 - D) Ask a friend on a different network to try connecting, since that's the only valid test.
+
+<details>
+<summary>Answer</summary>
+
+**B** — actively verify isolation (e.g., from a second device) before trusting it; assuming isolation is exactly the mistake Lecture 3 warns against, and it applies to Docker-based labs just as much as VM-based ones.
+
+</details>
 
 ---
 
@@ -101,6 +171,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) The law only requires isolation; the other two are optional best practice.
 - D) Scope and authorization are the same document by definition, so this is really only two controls.
 
+<details>
+<summary>Answer</summary>
+
+**B** — each control covers a distinct failure mode the other two don't; together they're what makes the course legal, safe, and honest, and dropping any one leaves a real gap.
+
+</details>
+
 ---
 
 **Q12.** A finding is: "the checkout API accepts a `price` parameter directly from the client with no server-side validation against the actual product price." Which CIA property does exploiting this **most directly** violate?
@@ -109,6 +186,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) Integrity
 - C) Availability
 - D) None — client-supplied prices are industry standard and safe
+
+<details>
+<summary>Answer</summary>
+
+**B** — Integrity. The client is able to modify data (the price) that should only be set authoritatively by the server, a tampering/write issue, not a confidentiality read.
+
+</details>
 
 ---
 
@@ -119,6 +203,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) Impact can't be scored without knowing the exact dollar amount lost.
 - D) Impact is always 3, by convention, for pricing-related bugs.
 
+<details>
+<summary>Answer</summary>
+
+**B** — a defensible impact score is high (4–5) because arbitrary or negative pricing has a direct, significant financial consequence; you don't need an exact dollar figure to justify a high score, just a clear, written rationale (which Task/Lecture 2 requires either way).
+
+</details>
+
 ---
 
 **Q14.** What is a **trust boundary**, and why does Lecture 1's breach story map to a failure at one specifically?
@@ -127,6 +218,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - B) A trust boundary is any point where data crosses between different levels of trust, requiring validation/authentication/authorization; the breach involved a missing authorization check exactly at the boundary between "any authenticated caller" and "this specific caller's own data."
 - C) Trust boundaries only exist between a company and its external customers, never inside a single application.
 - D) Trust boundaries are a theoretical concept with no practical engineering equivalent.
+
+<details>
+<summary>Answer</summary>
+
+**B** — a trust boundary is any point where data crosses trust levels, requiring a check; the breach's real failure was a missing authorization check exactly at the boundary between "any authenticated caller" and "this specific resource's owner."
+
+</details>
 
 ---
 
@@ -137,29 +235,13 @@ Fifteen questions. Lectures closed. Aim for 13/15 before starting Week 2. A mix 
 - C) It's a scoring system used only in the mini-project.
 - D) It only applies to Week 1's material and isn't used again.
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal after attempting</summary>
+<summary>Answer</summary>
 
-1. **B** — a threat is a potential cause of harm (an actor or event); a vulnerability is the exploitable weakness. Risk requires both together.
-2. **C** — publicly exposed, trivially discoverable credentials against a live production target are highly likely to be found and used; automated tools actively scan public repos for exactly this pattern.
-3. **C** — 2 × 5 = 10, which falls in the High band (10–15).
-4. **B** — Integrity. Modifying data (the order total) that shouldn't be modifiable by this user is a write/tampering action, not a read — that's integrity, even though no confidential data was exposed.
-5. **B** — without an exploitable weakness for the threat to act through, the threat has no path to actually cause harm; risk is the product of both, never either alone.
-6. **B** — attack surface is every point where an untrusted actor could interact with the system, not a bug count, not just documented endpoints, and not a proxy for code size.
-7. **B** — the endpoint was assumed to be "internal only," but that assumption was never actually enforced as a real network boundary or authorization check — an assumed-but-unenforced trust boundary, not a zero-day or a password issue.
-8. **B** — spreadsheets lack schema/constraints and invite silent, untracked edits; a `findings` table in SQL gives real, repeatable, auditable queries — the reason this course's data-tooling rule exists.
-9. **C** — `127.0.0.1:3000:3000` binds the published port to localhost only. Plain `3000:3000` and explicit `0.0.0.0:3000:3000` both publish to all network interfaces, making the target reachable from your whole LAN.
-10. **B** — actively verify isolation (e.g., from a second device) before trusting it; assuming isolation is exactly the mistake Lecture 3 warns against, and it applies to Docker-based labs just as much as VM-based ones.
-11. **B** — each control covers a distinct failure mode the other two don't; together they're what makes the course legal, safe, and honest, and dropping any one leaves a real gap.
-12. **B** — Integrity. The client is able to modify data (the price) that should only be set authoritatively by the server, a tampering/write issue, not a confidentiality read.
-13. **B** — a defensible impact score is high (4–5) because arbitrary or negative pricing has a direct, significant financial consequence; you don't need an exact dollar figure to justify a high score, just a clear, written rationale (which Task/Lecture 2 requires either way).
-14. **B** — a trust boundary is any point where data crosses trust levels, requiring a check; the breach's real failure was a missing authorization check exactly at the boundary between "any authenticated caller" and "this specific resource's owner."
-15. **B** — the attacker/defender view means every offensive concept is paired with its detection and its fix; it's the discipline that keeps this course strictly defensive and is reused, explicitly, in every remaining week.
+**B** — the attacker/defender view means every offensive concept is paired with its detection and its fix; it's the discipline that keeps this course strictly defensive and is reused, explicitly, in every remaining week.
 
 </details>
 
 **Scoring:** 13+ → start Week 2. 10–12 → re-read the lecture sections behind your misses. <10 → re-read all three lectures from the top; risk scoring and the attacker/defender habit compound every week from here.
+
+---
